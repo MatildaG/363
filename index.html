@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body onload="generateNewRubbish()">
     <div class="container">
         <p class="score">Score: <span id="score">0</span></p>
         <div id="bins">
@@ -32,20 +32,15 @@
                 <figcaption>General<br>Rubbish</figcaption>
             </figure>
         </div>
-
-        <img id="waterBucket" src="Images/waterBucket.png" alt="Water Bucket">
-
+        <div id="prepareRubbish">
+            <img id="waterBucket" src="Images/waterBucket.png" alt="Water Bucket">
+        </div>
         <div id="items">
-            <div id="rubbish">
-                <img src="Images/rubbish.png" alt="Rubbish" width="70px">
-            </div>
-            <div id="plastic">
-                <img src="Images/plastic.png" alt="Plastic" width="70px">
-            </div>
         </div>
 
-        <img id="conveyor" src="Images/conveyor.png" alt="Conveyor">
+        <!--img id="conveyor" src="Images/conveyor.png" alt="Conveyor"-->
         <img id="questionMark" src="Images/questionMark.png" alt="Question Mark">
+        <input type="button" value="Next" id="nextButton" onClick="generateNewRubbish()">
     </div>
 
     <script src="script.js"></script>
