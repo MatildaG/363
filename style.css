@@ -82,7 +82,7 @@ figcaption {
 
 /*CONVEYOR*/
 #conveyor {
-    background-image: url('Images/conveyorLarge.png');
+    background-image: url('Images/conveyor.png');
     position: relative;
     width: 100%;
     height: 30px;
