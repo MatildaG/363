@@ -5,20 +5,20 @@ class Item {
         this.correctBin = correctBin;
         this.cleaned = cleaned;
     }
-}   
+}
 
 const offsetLeft = 47;
 const offsetTop = 557;
 
 
 //Array of image references
-//0 = image reference, 1 = correct bin, 2 = cleaned/not, 3 = trash type, 4 = recyclable/not
+//0 = image reference, 1 = correct bin, 2 = cleaned/not, 3 = trash type, 4 = max-width
 let rubbishArray = [
-    ["Images/rubbish.png", "rubbishBin", 1, "Rubbish"],
-    ["Images/plastic.png", "recycleBin", 1, "Plastic"],
-    ["Images/rubbish.png", "rubbishBin", 1, "Rubbish"],
-    ["Images/plastic.png", "recycleBin", 1, "Plastic"],
-    ["Images/rubbish.png", "rubbishBin", 1, "Rubbish"]
+    ["Images/rubbish.png", "rubbishBin", 1, "Rubbish", 70],
+    ["Images/plastic.png", "recycleBin", 1, "Plastic", 70],
+    ["Images/bananaPeel.png", "foodScrapBin", 1, "Food Scrap", 70],
+    ["Images/glassBottleClean.png", "glassBin", 1, "Glass", 30],
+    ["Images/rubbish.png", "rubbishBin", 1, "Rubbish", 70]
 ];
 
 // Array of bins
@@ -43,30 +43,43 @@ let counter = 0;
  * and it creates 5 new trash items adding to DOM
  */
 //Function called onload and on nextButton click which creates 5 new trash items
-function generateNewRubbish(){
+function generateNewRubbish() {
     document.getElementById("nextButton").hidden = true;
 
     //Loop through 5x to add new rubbish items
     let itemsDiv = document.getElementById("items");
     let items = [];
     counter = 5;
-    for(let i = 0; i < 5; i++){
+
+    let rubbishPlacement = 0;
+
+    for (let i = 0; i < 5; i++) {
+        let j = Math.floor(Math.random() * 5);;
+
         //Create rubbish div
         let elementDiv = document.createElement("div");
-        elementDiv.setAttribute("id", "rubbishDiv" + i);
+        // elementDiv.setAttribute("id", "rubbishDiv" + i);
         elementDiv.setAttribute("class", "rubbishDivClass");
 
         let rubbishPiece = document.createElement("img");
-        rubbishPiece.setAttribute("src", rubbishArray[i][0]);
+        rubbishPiece.setAttribute("src", rubbishArray[j][0]);
         rubbishPiece.setAttribute("id", "rubbishPiece" + i);
         rubbishPiece.setAttribute("class", "rubbishClass");
-        rubbishPiece.setAttribute("alt", rubbishArray[i][3]);
+        rubbishPiece.setAttribute("alt", rubbishArray[j][3]);
+
+        elementDiv.style.left = rubbishPlacement + "%";
+        rubbishPiece.style.maxWidth = rubbishArray[j][4] + "px";
 
         //Add to the DOM
         elementDiv.appendChild(rubbishPiece);
+
         itemsDiv.appendChild(elementDiv);
-        items[i] = new Item(elementDiv, rubbishArray[i][1], rubbishArray[i][2]);
+        items[i] = new Item(elementDiv, rubbishArray[j][1], rubbishArray[j][2]);
+
+        // Adjusts the spacing of items based on items max-width
+        rubbishPlacement += (rubbishArray[j][4] / 3);
     }
+
     // Creates a drag function for each item
     items.forEach(dragElement);
 }
@@ -119,29 +132,29 @@ function dragElement(item) {
     function closeDragElement() {
         //Event that item is in a bucket
         let checkClean = isInWaterBucket(item);
-        if(checkClean){
+        if (checkClean) {
             item.cleaned = 1;
             alert("cleaned");
         }
-        else{
+        else {
             let check = isInsideBin(item);
 
             if (check) {
                 //Check item is washed 
-                if(item.cleaned == 0){
+                if (item.cleaned == 0) {
                     alert("Not Clean");
                 }
-                else{
+                else {
                     element.style.display = "none";
                     points++;
                     counter--;
                     //Check if there are any more elements on the page
-                    if(counter == 0){
-                        document.getElementById("nextButton").hidden = false; 
+                    if (counter == 0) {
+                        document.getElementById("nextButton").hidden = false;
                         alert("visible");
                     }
-                    else{
-                        document.getElementById("nextButton").hidden = true; 
+                    else {
+                        document.getElementById("nextButton").hidden = true;
                     }
                 }
             } else if (check === false) {
@@ -167,9 +180,9 @@ function isInsideBin(item) {
     //Need to add offsets since otherwise it is relative to the top left of items
     let itemOffsetTop = element.offsetTop + offsetTop;
     let itemOffsetLeft = offsetLeft + element.offsetLeft;
-    alert(itemOffsetLeft + "," + itemOffsetTop);
+    // alert(itemOffsetLeft + "," + itemOffsetTop);
     for (let i = 0; i < bins.length; i++) {
-        alert(bins[i].offsetLeft + "," + bins[i].offsetTop);
+        // alert(bins[i].offsetLeft + "," + bins[i].offsetTop);
         if (itemOffsetTop >= bins[i].offsetTop &&
             (itemOffsetTop + element.offsetHeight) <= (bins[i].offsetTop + bins[i].offsetHeight) &&
             itemOffsetLeft >= bins[i].offsetLeft &&
@@ -208,7 +221,7 @@ function isInWaterBucket(item) {
  * openInfoPage - Hides the game and opens info page allowing user to 
  * return directly to the game
  */
-function openInfoPage(){
+function openInfoPage() {
     document.getElementById("containerGame").hidden = true;
     document.getElementById("containerInfo").hidden = false;
 }
@@ -216,7 +229,7 @@ function openInfoPage(){
 /**
  * returnToGame - Hides the info and opens game page.
  */
-function returnToGame(){
+function returnToGame() {
     document.getElementById("containerInfo").hidden = true;
     document.getElementById("containerGame").hidden = false;
 }

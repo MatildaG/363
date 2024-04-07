@@ -79,14 +79,15 @@ figcaption {
 
 
 
-/*CONVEYOR*/
 
+/*CONVEYOR*/
 #conveyor {
+    background-image: url('Images/conveyorLarge.png');
     position: relative;
     width: 100%;
-    border-radius: 30px;
-    display: block;
-    margin: auto;
+    height: 30px;
+    background-size: contain;
+    background-repeat: repeat-x;
 }
 
 
@@ -101,28 +102,8 @@ figcaption {
     position: absolute;
 }
 
-#rubbishDiv0 {
-  left: 0%;
-}
-
-#rubbishDiv1 {
-  left: 20%;
-}
-
-#rubbishDiv2 {
-  left: 40%;
-}
-
-#rubbishDiv3 {
-  left: 60%;
-}
-
-#rubbishDiv4 {
-  left: 80%;
-}
-
 .rubbishClass{
-    max-width: 70px;
+    transform: translate(0, -105%);
 }
 
 
