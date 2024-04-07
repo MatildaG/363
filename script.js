@@ -7,6 +7,9 @@ class Item {
     }
 }   
 
+const offsetLeft = 47;
+const offsetTop = 557;
+
 
 //Array of image references
 //0 = image reference, 1 = correct bin, 2 = cleaned/not, 3 = trash type, 4 = recyclable/not
@@ -51,9 +54,10 @@ function generateNewRubbish(){
         //Create rubbish div
         let elementDiv = document.createElement("div");
         elementDiv.setAttribute("id", "rubbishDiv" + i);
+        elementDiv.setAttribute("class", "rubbishDivClass");
+
         let rubbishPiece = document.createElement("img");
         rubbishPiece.setAttribute("src", rubbishArray[i][0]);
-        rubbishPiece.setAttribute("width", "70px");
         rubbishPiece.setAttribute("id", "rubbishPiece" + i);
         rubbishPiece.setAttribute("class", "rubbishClass");
         rubbishPiece.setAttribute("alt", rubbishArray[i][3]);
@@ -160,12 +164,16 @@ function dragElement(item) {
 function isInsideBin(item) {
     let element = item.element;
     let correctBin = item.correctBin;
-
+    //Need to add offsets since otherwise it is relative to the top left of items
+    let itemOffsetTop = element.offsetTop + offsetTop;
+    let itemOffsetLeft = offsetLeft + element.offsetLeft;
+    alert(itemOffsetLeft + "," + itemOffsetTop);
     for (let i = 0; i < bins.length; i++) {
-        if (element.offsetTop >= bins[i].offsetTop &&
-            (element.offsetTop + element.offsetHeight) <= (bins[i].offsetTop + bins[i].offsetHeight) &&
-            element.offsetLeft >= bins[i].offsetLeft &&
-            (element.offsetLeft + element.offsetWidth) <= (bins[i].offsetLeft + bins[i].offsetWidth)) {
+        alert(bins[i].offsetLeft + "," + bins[i].offsetTop);
+        if (itemOffsetTop >= bins[i].offsetTop &&
+            (itemOffsetTop + element.offsetHeight) <= (bins[i].offsetTop + bins[i].offsetHeight) &&
+            itemOffsetLeft >= bins[i].offsetLeft &&
+            (itemOffsetLeft + element.offsetWidth) <= (bins[i].offsetLeft + bins[i].offsetWidth)) {
             if (bins[i].id === correctBin) {
                 return true;
             } else {
@@ -173,7 +181,6 @@ function isInsideBin(item) {
             }
         }
     }
-
     return null;
 }
 
@@ -184,11 +191,32 @@ function isInsideBin(item) {
  */
 function isInWaterBucket(item) {
     let element = item.element;
-    if (element.offsetTop >= waterBucket.offsetTop &&
-        (element.offsetTop + element.offsetHeight) <= (waterBucket.offsetTop + waterBucket.offsetHeight) &&
-        element.offsetLeft >= waterBucket.offsetLeft &&
-        (element.offsetLeft + element.offsetWidth) <= (waterBucket.offsetLeft + waterBucket.offsetWidth)) {
+    //Need to add offsets since otherwise it is relative to the top left of items
+    let itemOffsetTop = element.offsetTop + offsetTop;
+    let itemOffsetLeft = element.offsetLeft + offsetLeft;
+
+    if (itemOffsetTop >= waterBucket.offsetTop &&
+        (itemOffsetTop + element.offsetHeight) <= (waterBucket.offsetTop + waterBucket.offsetHeight) &&
+        itemOffsetLeft >= waterBucket.offsetLeft &&
+        (itemOffsetLeft + element.offsetWidth) <= (waterBucket.offsetLeft + waterBucket.offsetWidth)) {
         return true;
     }
     return false;
+}
+
+/**
+ * openInfoPage - Hides the game and opens info page allowing user to 
+ * return directly to the game
+ */
+function openInfoPage(){
+    document.getElementById("containerGame").hidden = true;
+    document.getElementById("containerInfo").hidden = false;
+}
+
+/**
+ * returnToGame - Hides the info and opens game page.
+ */
+function returnToGame(){
+    document.getElementById("containerInfo").hidden = true;
+    document.getElementById("containerGame").hidden = false;
 }

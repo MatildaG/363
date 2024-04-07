@@ -77,6 +77,8 @@ figcaption {
 
 }
 
+
+
 /*CONVEYOR*/
 
 #conveyor {
@@ -87,8 +89,40 @@ figcaption {
     margin: auto;
 }
 
+
+
+/*RUBBISH*/
+
+#items{
+    position: relative;
+}
+
 #items div {
     position: absolute;
+}
+
+#rubbishDiv0 {
+  left: 0%;
+}
+
+#rubbishDiv1 {
+  left: 20%;
+}
+
+#rubbishDiv2 {
+  left: 40%;
+}
+
+#rubbishDiv3 {
+  left: 60%;
+}
+
+#rubbishDiv4 {
+  left: 80%;
+}
+
+.rubbishClass{
+    max-width: 70px;
 }
 
 
