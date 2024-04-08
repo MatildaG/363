@@ -8,12 +8,10 @@ class Item {
 }
 
 const offsetLeft = 47;
-const offsetTop = 557;
-
 
 //Array of image references
 //0 = image reference, 1 = correct bin, 2 = cleaned/not, 3 = trash type, 4 = max-width
-let rubbishArray = [
+const rubbishArray = [
     ["Images/rubbish.png", "rubbishBin", 1, "Rubbish", 70],
     ["Images/plastic.png", "recycleBin", 1, "Plastic", 70],
     ["Images/bananaPeel.png", "foodScrapBin", 1, "Food Scrap", 70],
@@ -22,21 +20,19 @@ let rubbishArray = [
 ];
 
 // Array of bins
-let bins = [
-    document.getElementById("rubbishBin"),
-    document.getElementById("recycleBin"),
-    document.getElementById("glassBin"),
-    document.getElementById("foodScrapBin")
+// 0 = DOM element,  1 = offsetTop
+const bins = [
+    [document.getElementById("rubbishBin"), 557],
+    [document.getElementById("recycleBin"), 550],
+    [document.getElementById("glassBin"), 520],
+    [document.getElementById("foodScrapBin"), 490]
 ];
 
 //Water bucket
 let waterBucket = document.getElementById("waterBucket");
 
-// Users points
-let points = 0;
-
-//Counter for how many trash items are currently displayed
-let counter = 0;
+// Users points & counter for how many trash items are currently displayed
+let points = 0, counter = 0;
 
 /**
  * generateNewRubbish - This function is called onload and on nextButton click 
@@ -177,25 +173,35 @@ function dragElement(item) {
 function isInsideBin(item) {
     let element = item.element;
     let correctBin = item.correctBin;
-    //Need to add offsets since otherwise it is relative to the top left of items
-    let itemOffsetTop = element.offsetTop + offsetTop;
-    let itemOffsetLeft = offsetLeft + element.offsetLeft;
-    // alert(itemOffsetLeft + "," + itemOffsetTop);
+
+    let expandDistance = 10;
+
+    // Need to add offsets since otherwise it is relative to the top left of items
     for (let i = 0; i < bins.length; i++) {
-        // alert(bins[i].offsetLeft + "," + bins[i].offsetTop);
-        if (itemOffsetTop >= bins[i].offsetTop &&
-            (itemOffsetTop + element.offsetHeight) <= (bins[i].offsetTop + bins[i].offsetHeight) &&
-            itemOffsetLeft >= bins[i].offsetLeft &&
-            (itemOffsetLeft + element.offsetWidth) <= (bins[i].offsetLeft + bins[i].offsetWidth)) {
-            if (bins[i].id === correctBin) {
-                return true;
-            } else {
-                return false;
-            }
+        let offsetTop = bins[i][1];
+    
+        // Calculate expanded boundaries for the bin
+        let binTop = bins[i][0].offsetTop - expandDistance;
+        let binBottom = bins[i][0].offsetTop + bins[i][0].offsetHeight + expandDistance;
+        let binLeft = bins[i][0].offsetLeft - expandDistance;
+        let binRight = bins[i][0].offsetLeft + bins[i][0].offsetWidth + expandDistance;
+
+        // Calculate item's boundaries
+        let itemTop = element.offsetTop + offsetTop;
+        let itemBottom = itemTop + element.offsetHeight;
+        let itemLeft = offsetLeft + element.offsetLeft;
+        let itemRight = itemLeft + element.offsetWidth;
+
+        // Check if the item is within the boundaries of the bin
+        if (itemTop >= binTop && itemBottom <= binBottom &&
+            itemLeft >= binLeft && itemRight <= binRight) {
+            return (bins[i][0].id === correctBin) ? true : false;
         }
     }
+    
     return null;
 }
+
 
 /**
  * isInWaterBucket - Checks if an item is placed inside the wash bucket.
@@ -204,16 +210,19 @@ function isInsideBin(item) {
  */
 function isInWaterBucket(item) {
     let element = item.element;
-    //Need to add offsets since otherwise it is relative to the top left of items
-    let itemOffsetTop = element.offsetTop + offsetTop;
+    let itemOffsetTop = element.offsetTop + 550;
     let itemOffsetLeft = element.offsetLeft + offsetLeft;
+    let expandDistance = 10;
 
-    if (itemOffsetTop >= waterBucket.offsetTop &&
-        (itemOffsetTop + element.offsetHeight) <= (waterBucket.offsetTop + waterBucket.offsetHeight) &&
-        itemOffsetLeft >= waterBucket.offsetLeft &&
-        (itemOffsetLeft + element.offsetWidth) <= (waterBucket.offsetLeft + waterBucket.offsetWidth)) {
+    // Need to add offsets since otherwise it is relative to the top left of items
+    if (itemOffsetTop >= waterBucket.offsetTop - expandDistance &&
+        itemOffsetTop + element.offsetHeight <= waterBucket.offsetTop + waterBucket.offsetHeight + expandDistance &&
+        itemOffsetLeft >= waterBucket.offsetLeft - expandDistance &&
+        itemOffsetLeft + element.offsetWidth <= waterBucket.offsetLeft + waterBucket.offsetWidth + expandDistance) {
+        
         return true;
     }
+
     return false;
 }
 
