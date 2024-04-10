@@ -130,7 +130,7 @@ function dragElement(item) {
         let checkClean = isInWaterBucket(item);
         if (checkClean) {
             item.cleaned = 1;
-            alert("cleaned");
+            popUpMessage("Item Cleaned!", 1);
         }
         else {
             let check = isInsideBin(item);
@@ -138,7 +138,7 @@ function dragElement(item) {
             if (check) {
                 //Check item is washed 
                 if (item.cleaned == 0) {
-                    alert("Not Clean");
+                    popUpMessage("Not Clean!", 0);
                 }
                 else {
                     element.style.display = "none";
@@ -154,7 +154,7 @@ function dragElement(item) {
                     }
                 }
             } else if (check === false) {
-                alert("Wrong Bin");
+                popUpMessage("Wrong Bin!", 0);
             }
         }
 
@@ -163,6 +163,33 @@ function dragElement(item) {
 
         document.getElementById("score").innerHTML = points;
     }
+}
+
+/**
+ * popUpMessage - Shows the user a quick message of an event they just did
+ * @param {String} message - The message to be displayed
+ * @param {number} type - Whether the message should be red or green
+ */
+function popUpMessage(message, type) {
+    let popUp = document.getElementById("popUp");
+    let container = document.getElementById("smallContainer");
+
+    if (type === 1) {
+        container.style.backgroundColor = "LightGreen";
+        container.style.borderColor = "Green";
+    } else {
+        container.style.backgroundColor = "#FB7878";
+        container.style.borderColor = "#FF2115";
+    }
+
+    // From: https://www.sitepoint.com/delay-sleep-pause-wait/
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    container.innerHTML = "<p>" + message + "</p>";
+    popUp.style.display = "block";
+    delay(1000).then(() => { popUp.style.display = "none"; })
 }
 
 /**
@@ -179,7 +206,7 @@ function isInsideBin(item) {
     // Need to add offsets since otherwise it is relative to the top left of items
     for (let i = 0; i < bins.length; i++) {
         let offsetTop = bins[i][1];
-    
+
         // Calculate expanded boundaries for the bin
         let binTop = bins[i][0].offsetTop - expandDistance;
         let binBottom = bins[i][0].offsetTop + bins[i][0].offsetHeight + expandDistance;
@@ -198,7 +225,7 @@ function isInsideBin(item) {
             return (bins[i][0].id === correctBin) ? true : false;
         }
     }
-    
+
     return null;
 }
 
@@ -219,7 +246,7 @@ function isInWaterBucket(item) {
         itemOffsetTop + element.offsetHeight <= waterBucket.offsetTop + waterBucket.offsetHeight + expandDistance &&
         itemOffsetLeft >= waterBucket.offsetLeft - expandDistance &&
         itemOffsetLeft + element.offsetWidth <= waterBucket.offsetLeft + waterBucket.offsetWidth + expandDistance) {
-        
+
         return true;
     }
 
