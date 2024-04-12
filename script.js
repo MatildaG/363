@@ -28,7 +28,7 @@ const rubbishArray = [
     ["Images/bananaPeel.png", "foodScrapBin", 1, 1, "Food Scrap", 70],
     ["Images/glassBottleClean.png", "glassBin", 1, 1, "Glass", 30],
     ["Images/glassBottleDirty.png", "glassBin", 0, 1, "Glass", 30],
-    ["Images/glassBottleCleanLid.png", "glassBin", 0, 0, "Glass", 30],
+    ["Images/glassBottleCleanLid.png", "glassBin", 1, 0, "Glass", 30],
     ["Images/glassBottleDirtyLid.png", "glassBin", 0, 0, "Glass", 30],
     ["Images/rubbish.png", "rubbishBin", 1, 1, "Rubbish", 70]
 ];
@@ -143,20 +143,23 @@ function dragElement(item) {
         //Event that item is in a bucket
         let checkClean = isInWaterBucket(item);
         let checkLid = isInLidRemover(item);
-        alert("clean = " + item.cleaned + "lidOff = " + item.lidOff);
 
         if (checkClean) {
             item.cleaned = 1;
             let img = element.children[0];
             let src = img.src;
-            if(src.includes("Dirty")){
+            if(src.includes("DirtyLid")){
+                let newSrc = src.substring(0, src.length - 12);
+                img.src = newSrc + "CleanLid.png";
+                popUpMessage("Item Cleaned!", 1);
+            }
+            else if(src.includes("Dirty")){
                 let newSrc = src.substring(0, src.length - 9);
                 img.src = newSrc + "Clean.png";
                 popUpMessage("Item Cleaned!", 1);
             }
             else
                 popUpMessage("No need to be Cleaned!", 0);
-            alert("clean = " + item.cleaned + "lidOff = " + item.lidOff);
 
         }
         else if(checkLid){
@@ -170,7 +173,6 @@ function dragElement(item) {
             }
             else
                 popUpMessage("No Lid to Remove!", 0);
-            alert("clean = " + item.cleaned + "lidOff = " + item.lidOff);
 
         }
         else {
@@ -307,7 +309,6 @@ function isInLidRemover(item) {
         itemOffsetTop + element.offsetHeight <= lidRemover.offsetTop + lidRemover.offsetHeight + expandDistance &&
         itemOffsetLeft >= lidRemover.offsetLeft - expandDistance &&
         itemOffsetLeft + element.offsetWidth <= lidRemover.offsetLeft + lidRemover.offsetWidth + expandDistance) {
-        alert("in remover");
         return true;
     }
 
