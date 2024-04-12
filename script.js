@@ -13,9 +13,18 @@ const offsetLeft = 47;
 //0 = image reference, 1 = correct bin, 2 = cleaned/not, 3 = trash type, 4 = max-width
 const rubbishArray = [
     ["Images/rubbish.png", "rubbishBin", 1, "Rubbish", 70],
-    ["Images/plastic.png", "recycleBin", 1, "Plastic", 70],
+    ["Images/plastic1.png", "recycleBin", 1, "Plastic", 70],    
+    ["Images/plastic2.png", "recycleBin", 1, "Plastic", 70],
+    ["Images/plastic3.png", "rubbishBin", 1, "Plastic", 70],
+    ["Images/plastic4.png", "rubbishBin", 1, "Plastic", 70],
+    ["Images/plastic5.png", "recycleBin", 1, "Plastic", 70],
+    ["Images/plastic6.png", "rubbishBin", 1, "Plastic", 70],
+    ["Images/plastic7.png", "rubbishBin", 1, "Plastic", 70],
     ["Images/bananaPeel.png", "foodScrapBin", 1, "Food Scrap", 70],
     ["Images/glassBottleClean.png", "glassBin", 1, "Glass", 30],
+    ["Images/glassBottleDirty.png", "glassBin", 0, "Glass", 30],
+    //["Images/glassBottleCleanLid.png", "glassBin", 1, "Glass", 30],
+    //["Images/glassBottleDirtyLid.png", "glassBin", 0, "Glass", 30],
     ["Images/rubbish.png", "rubbishBin", 1, "Rubbish", 70]
 ];
 
@@ -50,11 +59,10 @@ function generateNewRubbish() {
     let rubbishPlacement = 0;
 
     for (let i = 0; i < 5; i++) {
-        let j = Math.floor(Math.random() * 5);;
+        let j = Math.floor(Math.random() * rubbishArray.length);;
 
         //Create rubbish div
         let elementDiv = document.createElement("div");
-        // elementDiv.setAttribute("id", "rubbishDiv" + i);
         elementDiv.setAttribute("class", "rubbishDivClass");
 
         let rubbishPiece = document.createElement("img");
@@ -130,6 +138,13 @@ function dragElement(item) {
         let checkClean = isInWaterBucket(item);
         if (checkClean) {
             item.cleaned = 1;
+            let img = element.children[0];
+            let src = img.src;
+            if(src.includes("Dirty")){
+                let newSrc = src.substring(0, src.length - 9);
+                alert(newSrc);
+                img.src = newSrc + "Clean.png";
+            }
             popUpMessage("Item Cleaned!", 1);
         }
         else {
@@ -147,7 +162,6 @@ function dragElement(item) {
                     //Check if there are any more elements on the page
                     if (counter == 0) {
                         document.getElementById("nextButton").hidden = false;
-                        alert("visible");
                     }
                     else {
                         document.getElementById("nextButton").hidden = true;

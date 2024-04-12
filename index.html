@@ -41,11 +41,31 @@
         <div id="conveyor"></div>
 
         <img id="questionMark" src="Images/questionMark.png" alt="Question Mark" onclick="openInfoPage()">
-        <input type="button" value="Next" id="nextButton" onClick="generateNewRubbish()">
+        <br><br>
+        <input class="buttons" type="button" value="Keep Playing?" id="nextButton" onClick="generateNewRubbish()">
     </div>
 
     <div class="container" id="containerInfo" hidden>
-        <input type="button" value="Return" onclick="returnToGame()">
+        <h1 id="helpHeading">HELP</h1>
+        <div id="gameInstructions">
+            <p>Aren't sure about what goes into each bin? That's okay! Here are some helpful hints to remember:</p>
+            <ul>
+                <li>When recycling, make sure your items are rinsed and CLEAN</li>
+                <li>If it has the numbers 1, 2, or 5, it CAN be recycled</li>
+                <li>General rubbish includes the plastics (and everything else) that CANNOT be recycled</li>
+                <li> Bottles that go in the recycling bin need to have their lids OFF</li>
+                <li> Glass jars also need to have their lids OFF</li>
+            </ul>
+            <p>If you are wanting a detailed explanation of what does and doesn't go into each bin, click on the different buttons below.</p>
+            <div id="recyclingHelp">
+                <h1 id="rubbishHelp">RUBBISH BIN</h1>
+                <h1 id="recycleHelp">RECYCLING BIN</h1>
+                <h1 id="scrapsHelp">FOOD SCRAPS BIN</h1>
+                <h1 id="glassHelp">GLASS BIN</h1>
+            </div>
+        </div>
+        <br><br>
+        <input class="buttons" type="button" value="Return To Game" onclick="returnToGame()">
     </div>
 
     <div id="popUp">
