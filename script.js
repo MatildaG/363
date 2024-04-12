@@ -1,31 +1,36 @@
 // Item Class
 class Item {
-    constructor(element, correctBin, cleaned) {
+    constructor(element, correctBin, cleaned, lidOff) {
         this.element = element;
         this.correctBin = correctBin;
         this.cleaned = cleaned;
+        this.lidOff = lidOff;
     }
 }
 
 const offsetLeft = 47;
 
 //Array of image references
-//0 = image reference, 1 = correct bin, 2 = cleaned/not, 3 = trash type, 4 = max-width
+//0 = image reference, 1 = correct bin, 2 = clean 3 = lidoff,
+//4 = trash type, 5 = max-width
 const rubbishArray = [
-    ["Images/rubbish.png", "rubbishBin", 1, "Rubbish", 70],
-    ["Images/plastic1.png", "recycleBin", 1, "Plastic", 70],    
-    ["Images/plastic2.png", "recycleBin", 1, "Plastic", 70],
-    ["Images/plastic3.png", "rubbishBin", 1, "Plastic", 70],
-    ["Images/plastic4.png", "rubbishBin", 1, "Plastic", 70],
-    ["Images/plastic5.png", "recycleBin", 1, "Plastic", 70],
-    ["Images/plastic6.png", "rubbishBin", 1, "Plastic", 70],
-    ["Images/plastic7.png", "rubbishBin", 1, "Plastic", 70],
-    ["Images/bananaPeel.png", "foodScrapBin", 1, "Food Scrap", 70],
-    ["Images/glassBottleClean.png", "glassBin", 1, "Glass", 30],
-    ["Images/glassBottleDirty.png", "glassBin", 0, "Glass", 30],
-    //["Images/glassBottleCleanLid.png", "glassBin", 1, "Glass", 30],
-    //["Images/glassBottleDirtyLid.png", "glassBin", 0, "Glass", 30],
-    ["Images/rubbish.png", "rubbishBin", 1, "Rubbish", 70]
+    ["Images/rubbish.png", "rubbishBin", 1, 1, "Rubbish", 70],
+    ["Images/plastic1.png", "recycleBin", 1, 1, "Plastic", 70],
+    ["Images/plastic1Lid.png", "recycleBin", 1, 0, "Plastic", 70],    
+    ["Images/plastic2.png", "recycleBin", 1, 1, "Plastic", 70],
+    ["Images/plastic2Lid.png", "recycleBin", 1, 0, "Plastic", 70],        
+    ["Images/plastic3.png", "rubbishBin", 1, 1, "Plastic", 70],
+    ["Images/plastic4.png", "rubbishBin", 1, 1, "Plastic", 70],
+    ["Images/plastic5.png", "recycleBin", 1, 1, "Plastic", 70],
+    ["Images/plastic5Lid.png", "recycleBin", 1, 0, "Plastic", 70],    
+    ["Images/plastic6.png", "rubbishBin", 1, 1, "Plastic", 70],
+    ["Images/plastic7.png", "rubbishBin", 1, 1, "Plastic", 70],
+    ["Images/bananaPeel.png", "foodScrapBin", 1, 1, "Food Scrap", 70],
+    ["Images/glassBottleClean.png", "glassBin", 1, 1, "Glass", 30],
+    ["Images/glassBottleDirty.png", "glassBin", 0, 1, "Glass", 30],
+    ["Images/glassBottleCleanLid.png", "glassBin", 0, 0, "Glass", 30],
+    ["Images/glassBottleDirtyLid.png", "glassBin", 0, 0, "Glass", 30],
+    ["Images/rubbish.png", "rubbishBin", 1, 1, "Rubbish", 70]
 ];
 
 // Array of bins
@@ -37,8 +42,9 @@ const bins = [
     [document.getElementById("foodScrapBin"), 490]
 ];
 
-//Water bucket
+//Water bucket and lid remover
 let waterBucket = document.getElementById("waterBucket");
+let lidRemover = document.getElementById("lidRemover");
 
 // Users points & counter for how many trash items are currently displayed
 let points = 0, counter = 0;
@@ -69,19 +75,19 @@ function generateNewRubbish() {
         rubbishPiece.setAttribute("src", rubbishArray[j][0]);
         rubbishPiece.setAttribute("id", "rubbishPiece" + i);
         rubbishPiece.setAttribute("class", "rubbishClass");
-        rubbishPiece.setAttribute("alt", rubbishArray[j][3]);
+        rubbishPiece.setAttribute("alt", rubbishArray[j][4]);
 
         elementDiv.style.left = rubbishPlacement + "%";
-        rubbishPiece.style.maxWidth = rubbishArray[j][4] + "px";
+        rubbishPiece.style.maxWidth = rubbishArray[j][5] + "px";
 
         //Add to the DOM
         elementDiv.appendChild(rubbishPiece);
 
         itemsDiv.appendChild(elementDiv);
-        items[i] = new Item(elementDiv, rubbishArray[j][1], rubbishArray[j][2]);
+        items[i] = new Item(elementDiv, rubbishArray[j][1], rubbishArray[j][2], rubbishArray[j][3]);
 
         // Adjusts the spacing of items based on items max-width
-        rubbishPlacement += (rubbishArray[j][4] / 3);
+        rubbishPlacement += (rubbishArray[j][5] / 3);
     }
 
     // Creates a drag function for each item
@@ -136,24 +142,44 @@ function dragElement(item) {
     function closeDragElement() {
         //Event that item is in a bucket
         let checkClean = isInWaterBucket(item);
+        let checkLid = isInLidRemover(item);
+        alert("clean = " + item.cleaned + "lidOff = " + item.lidOff);
+
         if (checkClean) {
             item.cleaned = 1;
             let img = element.children[0];
             let src = img.src;
             if(src.includes("Dirty")){
                 let newSrc = src.substring(0, src.length - 9);
-                alert(newSrc);
                 img.src = newSrc + "Clean.png";
+                popUpMessage("Item Cleaned!", 1);
             }
-            popUpMessage("Item Cleaned!", 1);
+            else
+                popUpMessage("No need to be Cleaned!", 0);
+            alert("clean = " + item.cleaned + "lidOff = " + item.lidOff);
+
+        }
+        else if(checkLid){
+            item.lidOff = 1;
+            let img = element.children[0];
+            let src = img.src;
+            if(src.includes("Lid")){
+                let newSrc = src.substring(0, src.length - 7);
+                img.src = newSrc + ".png";
+                popUpMessage("Lid Removed!", 1);
+            }
+            else
+                popUpMessage("No Lid to Remove!", 0);
+            alert("clean = " + item.cleaned + "lidOff = " + item.lidOff);
+
         }
         else {
             let check = isInsideBin(item);
 
             if (check) {
                 //Check item is washed 
-                if (item.cleaned == 0) {
-                    popUpMessage("Not Clean!", 0);
+                if (item.cleaned == 0 || item.lidOff == 0) {
+                    popUpMessage("Check again!\nNot ready to go in yet", 0);
                 }
                 else {
                     element.style.display = "none";
@@ -260,7 +286,28 @@ function isInWaterBucket(item) {
         itemOffsetTop + element.offsetHeight <= waterBucket.offsetTop + waterBucket.offsetHeight + expandDistance &&
         itemOffsetLeft >= waterBucket.offsetLeft - expandDistance &&
         itemOffsetLeft + element.offsetWidth <= waterBucket.offsetLeft + waterBucket.offsetWidth + expandDistance) {
+        return true;
+    }
+    return false;
+}
 
+/**
+ * isInLidRemover - Checks if an item is placed inside the lid remover.
+ * @param {Item} item - The item we are checking if has been 
+ * placed in the lid remover.
+ */
+function isInLidRemover(item) {
+    let element = item.element;
+    let itemOffsetTop = element.offsetTop + 550;
+    let itemOffsetLeft = element.offsetLeft + offsetLeft;
+    let expandDistance = 10;
+
+    // Need to add offsets since otherwise it is relative to the top left of items
+    if (itemOffsetTop >= lidRemover.offsetTop - expandDistance &&
+        itemOffsetTop + element.offsetHeight <= lidRemover.offsetTop + lidRemover.offsetHeight + expandDistance &&
+        itemOffsetLeft >= lidRemover.offsetLeft - expandDistance &&
+        itemOffsetLeft + element.offsetWidth <= lidRemover.offsetLeft + lidRemover.offsetWidth + expandDistance) {
+        alert("in remover");
         return true;
     }
 

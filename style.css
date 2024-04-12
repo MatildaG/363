@@ -152,6 +152,13 @@ figcaption {
     right: 4vw;
 }
 
+#lidRemover{
+    width: 90px;
+    position: absolute;
+    bottom: 7vh;
+    right: 10vw;
+}
+
 
 
 /*POP UP*/
