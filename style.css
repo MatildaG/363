@@ -123,17 +123,26 @@ figcaption {
 
 /*RUBBISH*/
 
-#items{
+#items {
     position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
-#items div {
+.rubbishDivClass {
     position: absolute;
+    cursor: grab;
 }
 
-.rubbishClass{
+.rubbishDivClass:active {
+    cursor: grabbing;
+}
+
+.rubbishClass {
     transform: translate(0, -105%);
 }
+
 
 
 

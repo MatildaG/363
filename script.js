@@ -55,21 +55,28 @@ let points = 0, counter = 0;
  */
 //Function called onload and on nextButton click which creates 5 new trash items
 function generateNewRubbish() {
+    counter = 0;
     document.getElementById("nextButton").hidden = true;
 
     //Loop through 5x to add new rubbish items
     let itemsDiv = document.getElementById("items");
+    itemsDiv.innerHTML = ""; // Need to clear div each time additional round is played
     let items = [];
-    counter = 5;
+
+    let containerWidth = document.getElementById("items").offsetWidth;
+    counter = Math.floor(containerWidth / 100); // Adjust 200 based on your design
+
+    console.log(counter);
 
     let rubbishPlacement = 0;
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < counter; i++) {
         let j = Math.floor(Math.random() * rubbishArray.length);;
 
         //Create rubbish div
         let elementDiv = document.createElement("div");
         elementDiv.setAttribute("class", "rubbishDivClass");
+
 
         let rubbishPiece = document.createElement("img");
         rubbishPiece.setAttribute("src", rubbishArray[j][0]);
@@ -88,10 +95,28 @@ function generateNewRubbish() {
 
         // Adjusts the spacing of items based on items max-width
         rubbishPlacement += (rubbishArray[j][5] / 3);
+        positionElements();
     }
 
     // Creates a drag function for each item
     items.forEach(dragElement);
+
+    // Spaces out elements evenly
+    function positionElements() {
+        let itemsDiv = document.getElementById("items");
+        let items = itemsDiv.getElementsByClassName("rubbishDivClass");
+    
+        let containerWidth = itemsDiv.offsetWidth;
+        let numItems = items.length;
+        let itemWidth = 100;
+        let gap = (containerWidth - (numItems * itemWidth)) / (numItems - 1);
+    
+        let leftPosition = 0;
+        for (let i = 0; i < numItems; i++) {
+            items[i].style.left = leftPosition + "px";
+            leftPosition += itemWidth + gap;
+        }
+    }
 }
 
 /**
