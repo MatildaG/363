@@ -30,7 +30,16 @@ const rubbishArray = [
     ["Images/glassBottleDirty.png", "glassBin", 0, 1, "Glass", 30],
     ["Images/glassBottleCleanLid.png", "glassBin", 1, 0, "Glass", 30],
     ["Images/glassBottleDirtyLid.png", "glassBin", 0, 0, "Glass", 30],
-    ["Images/rubbish.png", "rubbishBin", 1, 1, "Rubbish", 70]
+    ["Images/rubbish.png", "rubbishBin", 1, 1, "Rubbish", 70],
+    ["Images/rottonBread.png", "foodScrapBin", 1, 1, "Food Scrap", 70],
+    ["Images/flowers.png", "foodScrapBin", 1, 1, "Food Scrap", 70],
+    ["Images/eggShells.png", "foodScrapBin", 1, 1, "Food Scrap", 70],
+    ["Images/fishBones.png", "foodScrapBin", 1, 1, "Food Scrap", 70],
+    ["Images/teaBag.png", "foodScrapBin", 1, 1, "Food Scrap", 70],
+    ["Images/paperTowel.png", "foodScrapBin", 1, 1, "Food Scrap", 70],
+    ["Images/bodySpray.png", "rubbishBin", 1, 1, "Rubbish", 40],
+    ["Images/yoghurtContainer.png", "rubbishBin", 1, 1, "Rubbish", 70],
+    ["Images/pizzaBox.png", "recycleBin", 1, 1, "Recycle", 70]
 ];
 
 // Array of bins
