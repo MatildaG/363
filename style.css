@@ -54,7 +54,7 @@ body {
 
 /*BUTTONS*/
 
-.buttons{
+.buttons {
     font-size: 1.25em;
     padding: 6px 15px;
     border-radius: 8px;
@@ -63,6 +63,7 @@ body {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
+    cursor: pointer;
 }
 
 
@@ -75,11 +76,14 @@ body {
     margin-bottom: 15vh;
 }
 
-#foodScrapBin, #glassBin {
+#foodScrapBin,
+#glassBin {
     display: block;
 }
 
-#recycleBin, #rubbishBin, .alignBins {
+#recycleBin,
+#rubbishBin,
+.alignBins {
     display: inline;
 }
 
@@ -133,14 +137,11 @@ figcaption {
 .rubbishDivClass {
     position: absolute;
     cursor: grab;
+    transform: translate(0, -105%);
 }
 
 .rubbishDivClass:active {
     cursor: grabbing;
-}
-
-.rubbishClass {
-    transform: translate(0, -105%);
 }
 
 
@@ -152,6 +153,7 @@ figcaption {
     width: 70px;
     bottom: 7vh;
     position: absolute;
+    cursor: pointer;
 }
 
 #waterBucket {
@@ -161,11 +163,12 @@ figcaption {
     right: 4vw;
 }
 
-#lidRemover{
+#lidRemover {
     width: 90px;
     position: absolute;
     bottom: 7vh;
-    right: 10vw;
+    right: 4vw;
+    margin-right: 100px;
 }
 
 
@@ -201,29 +204,41 @@ figcaption {
 
 /*HELP PAGE*/
 
-h1{
+#gameInstructions {
+
+}
+
+#section {
+    background-color: #FFFFFF30;
+    padding: 1vw 4vw;
+    border-radius: 10px;
+}
+
+h1 {
     background-color: white;
     width: fit-content;
     padding: 5px 10px;
     border-radius: 10px;
     color: red;
+    margin: 10px 0;
+    cursor: pointer;
 }
 
-#scrapsHelp{
+#scrapsHelp {
     color: green;
 }
 
-#recycleHelp{
+#recycleHelp {
     color: orange;
 }
 
-#glassHelp{
+#glassHelp {
     color: deepskyblue;
 }
 
-#recyclingHelp{
+#recyclingHelp {
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    margin-bottom: 40px;
 }

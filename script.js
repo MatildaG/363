@@ -45,7 +45,7 @@ const rubbishArray = [
 // Array of bins
 // 0 = DOM element,  1 = offsetTop
 const bins = [
-    [document.getElementById("rubbishBin"), 557],
+    [document.getElementById("rubbishBin"), 510],
     [document.getElementById("recycleBin"), 550],
     [document.getElementById("glassBin"), 520],
     [document.getElementById("foodScrapBin"), 490]
@@ -315,7 +315,7 @@ function isInWaterBucket(item) {
     let element = item.element;
     let itemOffsetTop = element.offsetTop + 550;
     let itemOffsetLeft = element.offsetLeft + offsetLeft;
-    let expandDistance = 10;
+    let expandDistance = 50;
 
     // Need to add offsets since otherwise it is relative to the top left of items
     if (itemOffsetTop >= waterBucket.offsetTop - expandDistance &&
@@ -336,7 +336,7 @@ function isInLidRemover(item) {
     let element = item.element;
     let itemOffsetTop = element.offsetTop + 550;
     let itemOffsetLeft = element.offsetLeft + offsetLeft;
-    let expandDistance = 10;
+    let expandDistance = 25;
 
     // Need to add offsets since otherwise it is relative to the top left of items
     if (itemOffsetTop >= lidRemover.offsetTop - expandDistance &&
