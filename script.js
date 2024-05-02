@@ -161,10 +161,44 @@ function dragElement(item) {
     function elementDrag(e) {
         e = e || window;
         e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
+
+        let div = document.getElementById("containerGame");
+
+        //Retrieve div borders
+        let width = screen.availWidth;
+        let boxLeft = (width - div.offsetWidth) / 2 + (element.offsetWidth / 2);
+        let boxRight = width - (width - div.offsetWidth) / 2 - element.offsetWidth / 2;
+        let boxTop = (element.offsetHeight / 2);
+        let boxBottom = screen.availHeight - (element.offsetHeight * 2);
+        
+        //Check that mouse is in X bounds
+        if(e.clientX > boxLeft && e.clientX < boxRight){
+            pos1 = pos3 - e.clientX;
+            pos3 = e.clientX;
+        }
+        else if(e.clientX <= boxLeft){
+            pos1 = pos3 - boxLeft;
+            pos3 = boxLeft;
+        }
+        else{
+            pos1 = pos3 - boxRight;
+            pos3 = boxRight;   
+        }
+        
+        //Check that mouse in in Y bounds
+        if(e.clientY > boxTop && e.clientY < boxBottom){
+            pos2 = pos4 - e.clientY;
+            pos4 = e.clientY;
+        }
+        else if(e.clientY <= boxTop){
+            pos2 = pos4 - boxTop;
+            pos4 = boxTop;
+        }
+        else{
+            pos2 = pos4 - boxBottom;
+            pos4 = boxBottom;   
+        }
+
         element.style.top = (element.offsetTop - pos2) + "px";
         element.style.left = (element.offsetLeft - pos1) + "px";
     }
