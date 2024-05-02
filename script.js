@@ -46,7 +46,7 @@ const rubbishArray = [
 // 0 = DOM element,  1 = offsetTop
 const bins = [
     [document.getElementById("rubbishBin"), 510],
-    [document.getElementById("recycleBin"), 550],
+    [document.getElementById("recycleBin"), 500],
     [document.getElementById("glassBin"), 520],
     [document.getElementById("foodScrapBin"), 490]
 ];
@@ -291,13 +291,15 @@ function isInsideBin(item) {
 
         // Calculate item's boundaries
         let itemTop = element.offsetTop + offsetTop;
-        let itemBottom = itemTop + element.offsetHeight;
         let itemLeft = offsetLeft + element.offsetLeft;
-        let itemRight = itemLeft + element.offsetWidth;
 
-        // Check if the item is within the boundaries of the bin
-        if (itemTop >= binTop && itemBottom <= binBottom &&
-            itemLeft >= binLeft && itemRight <= binRight) {
+        //Calculate item's middle coords
+        let itemMiddleX = itemLeft + (element.offsetWidth / 2);
+        let itemMiddleY = itemTop + (element.offsetHeight / 2);
+
+        // Check if the item middle is within the boundaries of the bin
+        if (itemMiddleY >= binTop && itemMiddleY <= binBottom &&
+            itemMiddleX >= binLeft && itemMiddleX <= binRight) {
             return (bins[i][0].id === correctBin) ? true : false;
         }
     }
@@ -313,15 +315,18 @@ function isInsideBin(item) {
  */
 function isInWaterBucket(item) {
     let element = item.element;
-    let itemOffsetTop = element.offsetTop + 550;
+    let itemOffsetTop = element.offsetTop + 500;
     let itemOffsetLeft = element.offsetLeft + offsetLeft;
-    let expandDistance = 50;
+
+    //Calculate middle coords of object
+    let itemXMiddle = itemOffsetLeft + (element.offsetWidth / 2);
+    let itemYMiddle = itemOffsetTop + (element.offsetHeight / 2);
 
     // Need to add offsets since otherwise it is relative to the top left of items
-    if (itemOffsetTop >= waterBucket.offsetTop - expandDistance &&
-        itemOffsetTop + element.offsetHeight <= waterBucket.offsetTop + waterBucket.offsetHeight + expandDistance &&
-        itemOffsetLeft >= waterBucket.offsetLeft - expandDistance &&
-        itemOffsetLeft + element.offsetWidth <= waterBucket.offsetLeft + waterBucket.offsetWidth + expandDistance) {
+    if (itemYMiddle >= waterBucket.offsetTop &&
+        itemYMiddle <= waterBucket.offsetTop + waterBucket.offsetHeight &&
+        itemXMiddle >= waterBucket.offsetLeft &&
+        itemXMiddle <= waterBucket.offsetLeft + waterBucket.offsetWidth) {
         return true;
     }
     return false;
@@ -334,15 +339,19 @@ function isInWaterBucket(item) {
  */
 function isInLidRemover(item) {
     let element = item.element;
-    let itemOffsetTop = element.offsetTop + 550;
+    let itemOffsetTop = element.offsetTop + 510;
     let itemOffsetLeft = element.offsetLeft + offsetLeft;
-    let expandDistance = 25;
+
+    //Calculate middle coords of object
+    let itemXMiddle = itemOffsetLeft + (element.offsetWidth / 2);
+    let itemYMiddle = itemOffsetTop + (element.offsetHeight / 2);
+    
 
     // Need to add offsets since otherwise it is relative to the top left of items
-    if (itemOffsetTop >= lidRemover.offsetTop - expandDistance &&
-        itemOffsetTop + element.offsetHeight <= lidRemover.offsetTop + lidRemover.offsetHeight + expandDistance &&
-        itemOffsetLeft >= lidRemover.offsetLeft - expandDistance &&
-        itemOffsetLeft + element.offsetWidth <= lidRemover.offsetLeft + lidRemover.offsetWidth + expandDistance) {
+    if (itemYMiddle >= lidRemover.offsetTop &&
+        itemYMiddle <= lidRemover.offsetTop + lidRemover.offsetHeight &&
+        itemXMiddle >= lidRemover.offsetLeft &&
+        itemXMiddle <= lidRemover.offsetLeft + lidRemover.offsetWidth) {
         return true;
     }
 
