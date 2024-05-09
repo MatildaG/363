@@ -93,7 +93,7 @@ function generateNewRubbish() {
         rubbishPiece.setAttribute("class", "rubbishClass");
         rubbishPiece.setAttribute("alt", rubbishArray[j][4]);
 
-        elementDiv.style.left = rubbishPlacement + "%";
+        //elementDiv.style.left = rubbishPlacement + "%";
         rubbishPiece.style.maxWidth = rubbishArray[j][5] + "px";
 
         //Add to the DOM
@@ -103,7 +103,7 @@ function generateNewRubbish() {
         items[i] = new Item(elementDiv, rubbishArray[j][1], rubbishArray[j][2], rubbishArray[j][3]);
 
         // Adjusts the spacing of items based on items max-width
-        rubbishPlacement += (rubbishArray[j][5] / 3);
+        //rubbishPlacement += (rubbishArray[j][5] / 3);
         positionElements();
     }
 

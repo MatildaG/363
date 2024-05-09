@@ -157,21 +157,27 @@ figcaption {
     cursor: pointer;
 }
 
-#waterBucket {
-    width: 90px;
+#waterDiv, #lidDiv {
+    width: 105px;
     position: absolute;
     bottom: 7vh;
     right: 4vw;
 }
 
-#lidRemover {
-    width: 90px;
-    position: absolute;
-    bottom: 7vh;
-    right: 4vw;
-    margin-right: 100px;
+#lidDiv {
+    margin-right: 105px;  
 }
 
+#waterBucket, #lidRemover{
+    width: 100px;
+}
+
+label{
+    border-radius: 8px;
+    color: #EEE;
+    background-color: darkgreen;
+    padding: 3px;
+}
 
 
 /*POP UP*/
