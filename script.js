@@ -52,8 +52,8 @@ const bins = [
 ];
 
 //Water bucket and lid remover
-let waterBucket = document.getElementById("waterBucket");
-let lidRemover = document.getElementById("lidRemover");
+let waterBucket = document.getElementById("waterDiv");
+let lidRemover = document.getElementById("lidDiv");
 
 // Users points & counter for how many trash items are currently displayed
 let points = 0, counter = 0;
